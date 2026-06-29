@@ -35,24 +35,41 @@ function applyAuthState() {
     const token = getToken();
     const user = getUser();
     const navLinks = document.querySelector(".nav-links");
+    const container = document.getElementById("navUserContainer");
+    const badge = document.getElementById("navUserBadge");
 
     const existingAuth = document.getElementById("dynamicAuthLink");
     if (existingAuth) existingAuth.remove();
 
-    if (token && user && navLinks) {
-        const li = document.createElement("li");
-        li.id = "dynamicAuthLink";
-        let html = `<a class="nav-item" style="color:var(--neon-accent); cursor:pointer;" onclick="executeLogout()">Sign Out (${user.name.split(' ')[0]})</a>`;
-        if (user.role === "admin") {
-            html = `<a href="admin.html" class="nav-item" style="color:var(--neon-bright); margin-right:12px;">Admin</a>` + html;
+    if (token && user) {
+        if (navLinks && user.role === "admin") {
+            const li = document.createElement("li");
+            li.id = "dynamicAuthLink";
+            li.innerHTML = `<a href="admin.html" class="nav-item" style="color:var(--neon-bright)">Admin</a>`;
+            navLinks.appendChild(li);
         }
-        li.innerHTML = html;
-        navLinks.appendChild(li);
-    } else if (navLinks) {
-        const li = document.createElement("li");
-        li.id = "dynamicAuthLink";
-        li.innerHTML = `<a href="login.html" class="nav-item" style="color:var(--neon-accent)">Sign In</a>`;
-        navLinks.appendChild(li);
+        if (badge) {
+            badge.innerHTML = `
+                <i class="fas fa-user"></i>
+                <span>${user.name}</span>
+            `;
+        }
+        if (container) {
+            container.classList.remove("hidden");
+        }
+    } else {
+        if (navLinks) {
+            const li = document.createElement("li");
+            li.id = "dynamicAuthLink";
+            li.innerHTML = `<a href="login.html" class="nav-item" style="color:var(--neon-accent)">Sign In</a>`;
+            navLinks.appendChild(li);
+        }
+        if (container) {
+            container.classList.add("hidden");
+        }
+        if (badge) {
+            badge.innerHTML = "";
+        }
     }
 }
 

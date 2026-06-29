@@ -92,6 +92,60 @@ nav {
   transition: opacity 0.3s ease;
 }
 
+/* User Badge & Container in Nav Header */
+.nav-user-container {
+  position: absolute;
+  right: 50px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-user-container.hidden {
+  display: none !important;
+}
+
+.nav-user-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-light);
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: rgba(123, 44, 191, 0.04);
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  transition: opacity 0.3s ease;
+}
+
+.nav-user-badge i {
+  color: var(--neon-accent);
+}
+
+.nav-sign-out-btn {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.nav-sign-out-btn:hover {
+  color: var(--danger);
+  border-color: rgba(239, 71, 111, 0.3);
+  background: rgba(239, 71, 111, 0.05);
+  box-shadow: 0 0 10px rgba(239, 71, 111, 0.1);
+  transform: scale(1.05);
+}
+
 .search-bar {
   display: flex;
   background: rgba(255, 255, 255, 0.8);
