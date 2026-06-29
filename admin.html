@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel | Zoloverse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+  </head>
+  <body>
+    <nav class="sidebar">
+      <div class="brand"><i class="fas fa-store"></i><h2>Zoloverse Admin</h2></div>
+      <ul class="menu">
+        <li><a id="nav-dashboard" class="active" onclick="switchPanel('dashboard')"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
+        <li><a id="nav-products" onclick="switchPanel('products')"><i class="fas fa-tags"></i><span>Products</span></a></li>
+        <li><a id="nav-add-product" onclick="switchPanel('add-product')"><i class="fas fa-plus-circle"></i><span>Add Product</span></a></li>
+        <li><a id="nav-orders" onclick="switchPanel('orders')"><i class="fas fa-shopping-bag"></i><span>Orders</span><span class="badge-count" id="pendingBadge" style="display:none">0</span></a></li>
+        <li><a id="nav-customers" onclick="switchPanel('customers')"><i class="fas fa-users"></i><span>Customers</span></a></li>
+        <li><a id="nav-reviews" onclick="switchPanel('reviews')"><i class="fas fa-star"></i><span>Reviews</span><span class="badge-count" id="reviewBadge" style="display:none">0</span></a></li>
+      </ul>
+      <a href="index.html" style="color:var(--muted); text-decoration:none; font-size:0.85rem; padding:10px;"><i class="fas fa-external-link-alt"></i> View Storefront</a>
+    </nav>
+
+    <main class="main">
+      <header class="header-bar">
+        <h1 id="pageTitle">Dashboard</h1>
+        <div id="systemStatus" class="status-pill up"><span class="dot"></span> Checking...</div>
+      </header>
+
+      <!-- DASHBOARD -->
+      <section id="panel-dashboard" class="panel active">
+        <div class="kpi-grid">
+          <div class="kpi-card"><div><h3>Total Revenue</h3><p id="kpiRevenue">₹0</p></div><div class="kpi-icon"><i class="fas fa-rupee-sign"></i></div></div>
+          <div class="kpi-card"><div><h3>Total Orders</h3><p id="kpiOrders">0</p></div><div class="kpi-icon"><i class="fas fa-box"></i></div></div>
+          <div class="kpi-card"><div><h3>Active Customers</h3><p id="kpiUsers">0</p></div><div class="kpi-icon"><i class="fas fa-users"></i></div></div>
+          <div class="kpi-card"><div><h3>Products</h3><p id="kpiProducts">0</p></div><div class="kpi-icon"><i class="fas fa-tags"></i></div></div>
+          <div class="kpi-card"><div><h3>Pending Orders</h3><p id="kpiPending">0</p></div><div class="kpi-icon"><i class="fas fa-clock"></i></div></div>
+          <div class="kpi-card"><div><h3>Print Queue</h3><p id="kpiPrint">0</p></div><div class="kpi-icon"><i class="fas fa-print"></i></div></div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title"><i class="fas fa-exclamation-triangle" style="color:var(--warning)"></i> Urgent Alerts</h3>
+          <div id="urgentAlerts" class="alert-list"><div class="empty-state">No urgent tasks</div></div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title"><i class="fas fa-stream" style="color:var(--accent)"></i> Recent Orders</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr></thead>
+              <tbody id="recentOrdersBody"><tr><td colspan="5" class="empty-state">Loading...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- PRODUCTS LIST -->
+      <section id="panel-products" class="panel">
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+            <h3 class="card-title" style="margin:0"><i class="fas fa-tags" style="color:var(--accent)"></i> Product Catalog</h3>
+            <button class="btn btn-primary" onclick="switchPanel('add-product')"><i class="fas fa-plus"></i> Add Product</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Image</th><th>Title</th><th>Category</th><th>Variants</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="productsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ADD/EDIT PRODUCT -->
+      <section id="panel-add-product" class="panel">
+        <div class="card">
+          <h3 class="card-title" id="productFormTitle"><i class="fas fa-plus-circle" style="color:var(--accent)"></i> Add New Product</h3>
+          <form id="productForm" onsubmit="saveProduct(event)">
+            <input type="hidden" id="editProductId" />
+            <div class="form-grid">
+              <div class="form-group"><label>Product Title</label><input type="text" id="prodTitle" class="form-control" required placeholder="Sticker name" /></div>
+              <div class="form-group">
+                <label>Category</label>
+                <select id="prodCategory" class="form-control" required>
+                  <option value="tamil_actors">Tamil Actors</option>
+                  <option value="spiderman">Spider-Man</option>
+                  <option value="cars">Automotive</option>
+                  <option value="others">Minimalist & Tech</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Stock Quantity</label><input type="number" id="prodStock" class="form-control" value="50" min="0" required /></div>
+              <div class="form-group">
+                <label>Status</label>
+                <select id="prodStatus" class="form-control">
+                  <option value="Available">Available</option>
+                  <option value="Out of Stock">Out of Stock</option>
+                  <option value="Draft">Draft</option>
+                </select>
+              </div>
+              <div class="form-group full">
+                <label>Size Variants & Pricing (INR)</label>
+                <div class="variant-row">
+                  <div><label style="font-size:0.78rem">A4</label><input type="number" id="priceA4" class="form-control" placeholder="99" min="1" required /></div>
+                  <div><label style="font-size:0.78rem">A3</label><input type="number" id="priceA3" class="form-control" placeholder="149" min="1" required /></div>
+                  <div><label style="font-size:0.78rem">A2</label><input type="number" id="priceA2" class="form-control" placeholder="249" min="1" required /></div>
+                </div>
+              </div>
+              <div class="form-group full">
+                <label>Product Image</label>
+                <div class="upload-zone" id="uploadZone">
+                  <i class="fas fa-cloud-upload-alt" style="font-size:1.8rem; color:var(--muted)"></i>
+                  <p id="uploadText">Click or drag to upload image</p>
+                  <input type="file" id="prodImage" accept="image/*" onchange="handleImageUpload(this)" />
+                  <img id="imagePreview" class="preview-img" style="display:none" />
+                </div>
+                <input type="hidden" id="prodImageBase64" />
+              </div>
+              <div class="form-group full">
+                <label>Description</label>
+                <textarea id="prodDescription" class="form-control" placeholder="Product description..." required></textarea>
+              </div>
+              <div class="form-group full" style="display:flex; gap:12px; justify-content:flex-end;">
+                <button type="button" class="btn btn-secondary" onclick="resetProductForm(); switchPanel('products')">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="saveProductBtn"><i class="fas fa-save"></i> Save Product</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ORDERS -->
+      <section id="panel-orders" class="panel">
+        <div class="card">
+          <h3 class="card-title"><i class="fas fa-shopping-bag" style="color:var(--accent)"></i> Order Management</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Date</th><th>Customer</th><th>Phone</th><th>Address</th><th>Items</th><th>Total</th><th>Status</th></tr></thead>
+              <tbody id="ordersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- CUSTOMERS -->
+      <section id="panel-customers" class="panel">
+        <div class="card">
+          <h3 class="card-title"><i class="fas fa-users" style="color:var(--accent)"></i> Customer Log</h3>
+          <div class="search-bar">
+            <input type="text" id="customerSearch" class="form-control" placeholder="Search by name, email, or phone..." oninput="debounceCustomerSearch()" />
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Orders</th><th>Lifetime Spend</th></tr></thead>
+              <tbody id="customersTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- REVIEWS -->
+      <section id="panel-reviews" class="panel">
+        <div class="card">
+          <h3 class="card-title"><i class="fas fa-star" style="color:var(--warning)"></i> Review Moderation</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Product</th><th>Customer</th><th>Rating</th><th>Comment</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody id="reviewsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+  </body>
+</html>

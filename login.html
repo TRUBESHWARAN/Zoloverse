@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In | Zoloverse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Google Identity Services SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link rel="stylesheet" href="css/auth.css" />
+  </head>
+  <body>
+    <div class="auth-shell">
+      <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Back to store</a>
+      <div class="brand">
+        <h1>Zoloverse</h1>
+        <p>Premium stickers & digital services</p>
+      </div>
+      <div class="card">
+        <h2>Sign in</h2>
+        <p class="subtitle">Access your account to shop stickers and track orders.</p>
+        <div id="errorMessage" class="error-msg"></div>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email">Username or Email</label>
+            <input type="text" id="email" class="form-control" placeholder="Enter username or email" required autocomplete="username" />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" placeholder="Enter your password" required autocomplete="current-password" />
+          </div>
+          <button type="submit" class="btn-primary" id="submitBtn">Sign In</button>
+        </form>
+
+        <div id="googleSetupWarning" style="background:#fff9e6; border:1px solid #ffe8a1; color:#856404; padding:12px; border-radius:8px; font-size:0.82rem; margin-top:20px; line-height:1.4; display:none;">
+          <i class="fas fa-exclamation-triangle" style="margin-right:6px;"></i><strong>Developer Info:</strong> Google Sign-In is ready to use, but you need to paste your Client ID into <code>api/config.php</code> to activate the button.
+        </div>
+
+        <div id="googleSection" style="display: none;">
+          <div style="margin: 22px 0 18px 0; text-align: center; position: relative;">
+            <hr style="border: 0; border-top: 1px solid var(--border);">
+            <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--card); padding: 0 10px; color: var(--muted); font-size: 0.85rem; font-weight: 500;">or</span>
+          </div>
+          <div id="googleBtn" style="width: 100%; display: flex; justify-content: center;"></div>
+        </div>
+
+        <div class="footer-links">
+          New customer? <a href="register.html">Create an account</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/login.js"></script>
+  </body>
+</html>

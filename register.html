@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account | Zoloverse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="css/auth.css" />
+  </head>
+  <body>
+    <div class="auth-shell">
+      <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> Back to store</a>
+      <div class="brand">
+        <h1>Zoloverse</h1>
+        <p>Create your shopping account</p>
+      </div>
+      <div class="card">
+        <h2>Create account</h2>
+        <p class="subtitle">Join to buy premium stickers and track your orders.</p>
+        <div id="statusMessage" class="status-msg"></div>
+        <form id="registerForm">
+          <div class="form-group">
+            <label for="name">Full name</label>
+            <input type="text" id="name" class="form-control" placeholder="Your name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" class="form-control" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" class="form-control" placeholder="At least 6 characters" required minlength="6" />
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword">Confirm password</label>
+            <input type="password" id="confirmPassword" class="form-control" placeholder="Re-enter password" required />
+          </div>
+          <button type="submit" class="btn-primary">Create Account</button>
+        </form>
+        <div class="footer-links">
+          Already have an account? <a href="login.html">Sign in</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/register.js"></script>
+  </body>
+</html>
